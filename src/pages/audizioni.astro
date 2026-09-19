@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('pagine', 'audizioni');
+const { Content } = await entry.render();
+---
+<Layout title={entry.data.title}>
+  <section class="container">
+    <h1>{entry.data.title}</h1>
+    <div class="staff-divider staff-divider--tight" role="presentation"></div>
+    <div class="prose"><Content /></div>
+  </section>
+</Layout>

@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Coro Polifonico "Mater Misericordiae" — Associazione Musicale Culturale Euterpe APS, Brindisi.' } = Astro.props;
+const path = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/chi-siamo', label: 'Chi siamo' },
+  { href: '/storia', label: 'Storia' },
+  { href: '/temi', label: 'Temi ed eventi' },
+  { href: '/audizioni', label: 'Audizioni' },
+  { href: '/contatti', label: 'Contatti' },
+];
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — Coro Polifonico Mater Misericordiae</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/">
+        Mater Misericordiae
+        <small>Associazione Musicale Culturale Euterpe APS &middot; Brindisi</small>
+      </a>
+      <nav class="site-nav" aria-label="Navigazione principale">
+        <ul>
+          {links.map((l) => (
+            <li><a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <strong>Coro Polifonico "Mater Misericordiae"</strong><br />
+        Parrocchia SS. Resurrezione, quartiere Cappuccini &mdash; Brindisi
+      </div>
+      <div class="meta">
+        <a href="mailto:Ass.euterpeaps@gmail.com">Ass.euterpeaps@gmail.com</a><br />
+        <a href="https://www.facebook.com/coropolifonicomatermisericordiae" target="_blank" rel="noopener">Facebook</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://www.instagram.com/coromatermisericordiaebr" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

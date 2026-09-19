@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const temi = (await getCollection('temi', ({ data }) => data.published))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+<Layout title="Home">
+  <section class="hero container">
+    <p class="eyebrow-note">Brindisi &mdash; Parrocchia SS. Resurrezione, quartiere Cappuccini</p>
+    <h1>Un coro nato per unire voci diverse in un'unica armonia.</h1>
+    <p class="lede">
+      Il Coro Polifonico "Mater Misericordiae", espressione dell'Associazione Musicale
+      Culturale Euterpe APS, canta dal 2019 tra fede, musica e comunità. Non serve
+      esperienza: serve solo la voglia di provarci.
+    </p>
+    <a class="btn" href="/audizioni">Vieni a cantare con noi</a>
+  </section>
+
+  <div class="container"><div class="staff-divider" role="presentation"></div></div>
+
+  <section class="container">
+    <h2>Ultimi temi ed eventi</h2>
+    <div class="temi-grid">
+      {temi.map((tema) => (
+        <a class="tema-card" href={`/temi/${tema.slug}`}>
+          {tema.data.cover ? (
+            <div class="cover" style={`background-image:url(${tema.data.cover})`}></div>
+          ) : (
+            <div class="cover no-photo"><span>Foto in arrivo</span></div>
+          )}
+          <span class="date">{tema.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+          <h3>{tema.data.title}</h3>
+        </a>
+      ))}
+    </div>
+    <p><a href="/temi">Vedi tutti i temi</a></p>
+  </section>
+</Layout>

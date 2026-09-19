@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const temi = (await getCollection('temi', ({ data }) => data.published))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Layout title="Temi ed eventi">
+  <section class="container">
+    <h1>Temi ed eventi</h1>
+    <p>Concerti, incontri e iniziative del coro, ognuno con la propria galleria fotografica.</p>
+    <div class="staff-divider staff-divider--tight" role="presentation"></div>
+    <div class="temi-grid">
+      {temi.map((tema) => (
+        <a class="tema-card" href={`/temi/${tema.slug}`}>
+          {tema.data.cover ? (
+            <div class="cover" style={`background-image:url(${tema.data.cover})`}></div>
+          ) : (
+            <div class="cover no-photo"><span>Foto in arrivo</span></div>
+          )}
+          <span class="date">{tema.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+          <h3>{tema.data.title}</h3>
+          <p>{tema.data.excerpt}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

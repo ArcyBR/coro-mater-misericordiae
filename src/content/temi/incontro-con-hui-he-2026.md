@@ -7,6 +7,7 @@ cover: ""
 published: true
 gallery:
   - image: /images/uploads/incontro-con-il-soprano-hui-he.jpg
+  - image: /images/uploads/incontro-con-il-soprano-hui-he_foto-di-gruppo.jpg
 ---
 
 Un momento speciale per il coro: l'incontro con il soprano internazionale

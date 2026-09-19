@@ -1,7 +1,6 @@
 ---
 title: Storia
 ---
-
 1. **8 marzo 2019** &mdash; Fondazione del Coro Polifonico "Mater Misericordiae".
 2. **16 giugno 2019** &mdash; Debutto con il concerto per soli, coro e orchestra
    da camera *"Testimoni dell'Amore, chiamati alla Santità"*.
@@ -16,6 +15,3 @@ title: Storia
    **Hui He**.
 7. **18 settembre 2026** &mdash; Riapertura della nuova stagione corale presso
    la Parrocchia SS. Resurrezione, con l'invito a nuove voci.
-
-*(pagina aggiornabile liberamente dal pannello di gestione: aggiungi nuove tappe
-man mano che la storia del coro continua)*

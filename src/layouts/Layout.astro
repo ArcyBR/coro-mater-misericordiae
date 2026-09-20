@@ -160,10 +160,7 @@ const links = [
         document.body.style.overflow = '';
       }
 
-      document.addEventListener('click', function (e) {
-        var img = e.target.closest('.lightbox-img');
-        if (img) { openLightbox(img); }
-      });
+      document.addEventListener('click', function (e) { var img = e.target.closest('.lightbox-img'); if (img) { e.preventDefault(); openLightbox(img); } }); 
 
       overlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
       overlay.addEventListener('click', function (e) {

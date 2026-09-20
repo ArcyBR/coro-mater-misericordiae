@@ -1,4 +1,4 @@
 ---
-heroImage: /images/uploads/logo-coro-polifonico-mater-misericordiae.jpg
+heroImage: /images/uploads/incontro-con-il-soprano-hui-he_foto-di-gruppo.jpg
 heroImageAlt: ""
 ---

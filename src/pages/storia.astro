@@ -1,14 +1,72 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getEntry } from 'astro:content';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import { getCollection, getEntry } from 'astro:content';
 
-const entry = await getEntry('pagine', 'storia');
-const { Content } = await entry.render();
+const tappe = (await getCollection('storia', ({ data }) => data.published))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const tappeConDati = await Promise.all(
+  tappe.map(async (tappa) => {
+    let gallery = tappa.data.gallery;
+    let videos = tappa.data.videos;
+    let temaSlug = tappa.data.tema;
+
+    if (temaSlug) {
+      const tema = await getEntry('temi', temaSlug);
+      if (tema) {
+        if (gallery.length === 0) gallery = tema.data.gallery;
+        if (videos.length === 0) videos = tema.data.videos;
+      }
+    }
+
+    const { Content } = await tappa.render();
+    return { tappa, gallery, videos, temaSlug, Content };
+  })
+);
 ---
-<Layout title={entry.data.title}>
+<Layout title="Storia">
   <section class="container reveal">
-    <h1>{entry.data.title}</h1>
+    <h1>Storia</h1>
+    <p class="lede">Le tappe principali del cammino del coro, con le foto e i video di ogni momento.</p>
     <div class="staff-divider staff-divider--tight" role="presentation"></div>
-    <div class="prose card-panel timeline"><Content /></div>
+
+    <div class="timeline-list">
+      {tappeConDati.map(({ tappa, gallery, videos, temaSlug, Content }) => (
+        <div class="timeline-item">
+          <span class="date">
+            {tappa.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </span>
+          <h3>{tappa.data.title}</h3>
+          <div class="prose"><Content /></div>
+
+          {gallery.length > 0 && (
+            <div class="timeline-photos" data-lightbox-group>
+              {gallery.map((foto) => (
+                <img
+                  class="lightbox-img"
+                  src={foto.image}
+                  alt={foto.caption ?? tappa.data.title}
+                  data-caption={foto.caption ?? tappa.data.title}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          )}
+
+          {videos.length > 0 && (
+            <div class="video-grid">
+              {videos.map((video) => (
+                <VideoEmbed url={video.url} caption={video.caption} />
+              ))}
+            </div>
+          )}
+
+          {temaSlug && (
+            <p><a href={`/temi/${temaSlug}`}>Vedi la pagina completa di questo evento</a></p>
+          )}
+        </div>
+      ))}
+    </div>
   </section>
 </Layout>

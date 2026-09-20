@@ -44,6 +44,47 @@ collections:
           - { label: "Didascalia (facoltativa)", name: "caption", widget: "string", required: false }
       - { label: "Testo", name: "body", widget: "markdown" }
 
+  - name: "storia"
+    label: "Storia (tappe cronologiche)"
+    label_singular: "Tappa"
+    folder: "src/content/storia"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: title
+    fields:
+      - { label: "Titolo della tappa", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "date" }
+      - { label: "Pubblicato", name: "published", widget: "boolean", default: true }
+      - label: "Collega a un Tema esistente (facoltativo)"
+        name: "tema"
+        widget: "relation"
+        collection: "temi"
+        search_fields: ["title"]
+        value_field: "{{slug}}"
+        display_fields: ["title"]
+        required: false
+        hint: "Se questa tappa corrisponde a un Tema già creato, collegalo qui: le sue foto e i suoi video verranno mostrati automaticamente, senza doverli ricaricare."
+      - label: "Foto proprie di questa tappa (solo se NON è collegata a un Tema)"
+        name: "gallery"
+        widget: "list"
+        allow_add: true
+        required: false
+        summary: "{{fields.caption}}"
+        fields:
+          - { label: "Foto", name: "image", widget: "image" }
+          - { label: "Didascalia (facoltativa)", name: "caption", widget: "string", required: false }
+      - label: "Video propri di questa tappa (solo se NON è collegata a un Tema)"
+        name: "videos"
+        widget: "list"
+        allow_add: true
+        required: false
+        summary: "{{fields.caption}}"
+        fields:
+          - { label: "Link del video", name: "url", widget: "string" }
+          - { label: "Didascalia (facoltativa)", name: "caption", widget: "string", required: false }
+      - { label: "Racconto", name: "body", widget: "markdown" }
+
   - name: "pagine"
     label: "Pagine del sito"
     label_singular: "Pagina"
@@ -54,3 +95,17 @@ collections:
     fields:
       - { label: "Titolo", name: "title", widget: "string" }
       - { label: "Testo", name: "body", widget: "markdown" }
+
+  - name: "impostazioni"
+    label: "Impostazioni sito"
+    files:
+      - name: "home"
+        label: "Home page"
+        file: "src/content/impostazioni/home.md"
+        fields:
+          - label: "Immagine di sfondo dell'apertura (facoltativa)"
+            name: "heroImage"
+            widget: "image"
+            required: false
+            hint: "Se la lasci vuota, verrà usata automaticamente l'ultima foto caricata in un Tema."
+          - { label: "Descrizione dell'immagine (per accessibilità)", name: "heroImageAlt", widget: "string", required: false }

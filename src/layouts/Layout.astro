@@ -87,6 +87,14 @@ const links = [
     </div>
   </footer>
 
+  <div id="lightbox" class="lightbox-overlay" hidden>
+    <button type="button" class="lightbox-close" aria-label="Chiudi">&times;</button>
+    <button type="button" class="lightbox-prev" aria-label="Foto precedente">&lsaquo;</button>
+    <img id="lightbox-img" src="" alt="" />
+    <button type="button" class="lightbox-next" aria-label="Foto successiva">&rsaquo;</button>
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </div>
+
   <script is:inline>
     (function () {
       var toggle = document.getElementById('nav-toggle');
@@ -117,6 +125,59 @@ const links = [
           el.classList.add('is-visible');
         });
       }
+
+      // Lightbox: ingrandimento immagini, con navigazione tra le foto di uno stesso gruppo
+      var overlay = document.getElementById('lightbox');
+      var overlayImg = document.getElementById('lightbox-img');
+      var overlayCaption = document.getElementById('lightbox-caption');
+      var currentGroup = [];
+      var currentIndex = 0;
+
+      function showAt(index) {
+        if (!currentGroup.length) return;
+        currentIndex = (index + currentGroup.length) % currentGroup.length;
+        var el = currentGroup[currentIndex];
+        overlayImg.src = el.getAttribute('src');
+        overlayImg.alt = el.getAttribute('alt') || '';
+        var caption = el.getAttribute('data-caption') || '';
+        overlayCaption.textContent = caption;
+        overlayCaption.hidden = !caption;
+      }
+
+      function openLightbox(img) {
+        var group = img.closest('[data-lightbox-group]');
+        currentGroup = group
+          ? Array.prototype.slice.call(group.querySelectorAll('.lightbox-img'))
+          : [img];
+        currentIndex = currentGroup.indexOf(img);
+        showAt(currentIndex);
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        overlay.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('click', function (e) {
+        var img = e.target.closest('.lightbox-img');
+        if (img) { openLightbox(img); }
+      });
+
+      overlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeLightbox();
+      });
+      overlay.querySelector('.lightbox-prev').addEventListener('click', function () { showAt(currentIndex - 1); });
+      overlay.querySelector('.lightbox-next').addEventListener('click', function () { showAt(currentIndex + 1); });
+
+      document.addEventListener('keydown', function (e) {
+        if (overlay.hidden) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
+        if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+      });
     })();
   </script>
 </body>

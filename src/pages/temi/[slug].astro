@@ -27,10 +27,16 @@ const { Content } = await tema.render();
     {tema.data.gallery.length > 0 && (
       <>
         <h2>Foto</h2>
-        <div class="gallery">
+        <div class="gallery" data-lightbox-group>
           {tema.data.gallery.map((foto) => (
             <figure>
-              <img src={foto.image} alt={foto.caption ?? tema.data.title} loading="lazy" />
+              <img
+                class="lightbox-img"
+                src={foto.image}
+                alt={foto.caption ?? tema.data.title}
+                data-caption={foto.caption ?? tema.data.title}
+                loading="lazy"
+              />
               {foto.caption && <figcaption>{foto.caption}</figcaption>}
             </figure>
           ))}

@@ -31,10 +31,29 @@ pensato per essere aggiornato da una persona non tecnica.
    (segretaria/corista) che gestirà i contenuti. Riceverà un'email per
    impostare la password.
 6. Da quel momento, quella persona apre `https://<nome-sito>.netlify.app/admin`,
-   fa login, e gestisce tutto da lì: testi delle pagine (Chi siamo, Storia,
-   Audizioni, Contatti), e i "Temi ed eventi" con le loro gallerie fotografiche
-   (più foto per ogni tema, aggiungibili e rimovibili liberamente) **e i video**
-   (basta incollare il link di un video YouTube o Vimeo, più video per tema).
+   fa login, e gestisce tutto da lì: testi delle pagine (Chi siamo, Audizioni,
+   Contatti), le tappe della **Storia** (ognuna con le proprie foto/video, o
+   collegata a un Tema esistente per riusarne automaticamente le foto), i
+   **Temi ed eventi** con le loro gallerie fotografiche (più foto per ogni
+   tema, aggiungibili e rimovibili liberamente) e i **video** (basta incollare
+   il link di un video YouTube o Vimeo, più video per tema/tappa), e
+   l'**immagine di sfondo della home** (sezione "Impostazioni sito → Home
+   page"; se non viene impostata, il sito usa automaticamente l'ultima foto
+   caricata in un Tema).
+
+## Foto storiche mancanti
+
+Le tappe della Storia degli anni 2019-2020 non hanno ancora foto reali (Facebook
+e Instagram non sono raggiungibili automaticamente da qui). Per aggiungerle:
+apri `/admin` → "Storia (tappe cronologiche)" → apri la tappa interessata →
+carica le foto nel campo "Foto proprie di questa tappa".
+
+## Ingrandimento foto (lightbox)
+
+Tutte le gallerie del sito (home, temi, storia) permettono di cliccare su una
+foto per vederla ingrandita a schermo intero, con frecce per scorrere tra le
+foto dello stesso gruppo e tasto Esc per chiudere. Non richiede configurazione:
+funziona automaticamente su ogni immagine caricata.
 
 ## Dominio personalizzato (facoltativo)
 

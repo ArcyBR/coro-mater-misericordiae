@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
 const allTemi = (await getCollection('temi', ({ data }) => data.published))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -20,9 +20,24 @@ const eventsDocumented = allTemi.length;
 const latestVideo = allTemi
   .flatMap((t) => t.data.videos.map((v) => ({ ...v, temaTitle: t.data.title, slug: t.slug })))
   .slice(0, 1)[0];
+
+// Immagine di sfondo dell'apertura: quella impostata a mano, oppure in automatico
+// l'ultima foto reale caricata in un Tema (copertina o prima foto della galleria).
+const settings = await getEntry('impostazioni', 'home');
+const autoHeroImage = allTemi
+  .map((t) => t.data.cover || t.data.gallery[0]?.image)
+  .find(Boolean);
+const heroImage = settings?.data.heroImage || autoHeroImage;
+const heroImageAlt = settings?.data.heroImageAlt || 'Il coro durante uno dei suoi eventi';
+
+// Mosaico di foto reali raccolte da tutti i Temi pubblicati
+const mosaicPhotos = allTemi
+  .flatMap((t) => t.data.gallery.map((g) => ({ ...g, temaTitle: t.data.title })))
+  .slice(0, 8);
 ---
 <Layout title="Home">
-  <section class="hero container">
+  <section class={`hero container ${heroImage ? 'has-bg' : ''}`}>
+    {heroImage && <div class="hero-bg-layer" style={`background-image:url(${heroImage})`} aria-hidden="true"></div>}
     <div class="hero-inner">
       <div>
         <p class="eyebrow-note">Brindisi &mdash; Parrocchia SS. Resurrezione, quartiere Cappuccini</p>
@@ -34,22 +49,24 @@ const latestVideo = allTemi
         </p>
         <a class="btn" href="/audizioni">Vieni a cantare con noi</a>
       </div>
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="100" cy="100" r="92" stroke="#d9cfb8" stroke-width="1.5"/>
-          <circle cx="100" cy="100" r="70" stroke="#d9cfb8" stroke-width="1.5"/>
-          <g stroke="#6e1f2a" stroke-width="2" stroke-linecap="round">
-            <path d="M40 100 Q 70 60, 100 100 T 160 100"/>
-            <path d="M40 120 Q 70 90, 100 120 T 160 120" opacity="0.6"/>
-            <path d="M40 80 Q 70 50, 100 80 T 160 80" opacity="0.35"/>
-          </g>
-          <g fill="#b98a2e">
-            <circle cx="62" cy="132" r="5"/>
-            <circle cx="112" cy="70" r="5"/>
-            <circle cx="150" cy="112" r="5"/>
-          </g>
-        </svg>
-      </div>
+      {!heroImage && (
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="92" stroke="#d9cfb8" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="70" stroke="#d9cfb8" stroke-width="1.5"/>
+            <g stroke="#6e1f2a" stroke-width="2" stroke-linecap="round">
+              <path d="M40 100 Q 70 60, 100 100 T 160 100"/>
+              <path d="M40 120 Q 70 90, 100 120 T 160 120" opacity="0.6"/>
+              <path d="M40 80 Q 70 50, 100 80 T 160 80" opacity="0.35"/>
+            </g>
+            <g fill="#b98a2e">
+              <circle cx="62" cy="132" r="5"/>
+              <circle cx="112" cy="70" r="5"/>
+              <circle cx="150" cy="112" r="5"/>
+            </g>
+          </svg>
+        </div>
+      )}
     </div>
 
     <div class="stats-band reveal">
@@ -108,6 +125,26 @@ const latestVideo = allTemi
     "Un coro è tante voci che decidono, insieme, di diventare una sola."
     <span>Coro Polifonico Mater Misericordiae</span>
   </p>
+
+  {mosaicPhotos.length > 0 && (
+    <section class="container reveal">
+      <h2>I nostri momenti</h2>
+      <p class="lede">Clicca su una foto per ingrandirla.</p>
+      <div class="photo-mosaic" data-lightbox-group>
+        {mosaicPhotos.map((foto) => (
+          <a href={foto.image}>
+            <img
+              class="lightbox-img"
+              src={foto.image}
+              alt={foto.caption ?? foto.temaTitle}
+              data-caption={foto.caption ?? foto.temaTitle}
+              loading="lazy"
+            />
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="container reveal">
     <h2>Ultimi temi ed eventi</h2>

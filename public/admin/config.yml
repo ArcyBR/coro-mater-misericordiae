@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: ArcyBR/coro-mater-misericordiae
   branch: main
+  base_url: https://SOSTITUISCI-CON-IL-TUO-WORKER.workers.dev
+  auth_endpoint: auth
 
 # Login e caricamento immagini gestiti dal riquadro "Identity" di Netlify:
 # la segretaria/corista accede con email e password, senza bisogno di un account GitHub.

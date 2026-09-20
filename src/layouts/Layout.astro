@@ -28,18 +28,6 @@ const links = [
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet" />
-  <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script is:inline>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
 </head>
 <body>
   <header class="site-header">
@@ -160,7 +148,13 @@ const links = [
         document.body.style.overflow = '';
       }
 
-      document.addEventListener('click', function (e) { var img = e.target.closest('.lightbox-img'); if (img) { e.preventDefault(); openLightbox(img); } }); 
+      document.addEventListener('click', function (e) {
+        var img = e.target.closest('.lightbox-img');
+        if (img) {
+          e.preventDefault();
+          openLightbox(img);
+        }
+      });
 
       overlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
       overlay.addEventListener('click', function (e) {

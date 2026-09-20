@@ -1,5 +1,7 @@
 ---
 title: Chi siamo
+directorName: "M° Anna Maria Sabino Pasquale"
+directorPhoto: ""
 ---
 
 Il Coro Polifonico **"Mater Misericordiae"** è nato l'8 marzo 2019 all'interno

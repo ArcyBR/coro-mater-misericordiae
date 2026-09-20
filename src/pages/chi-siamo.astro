@@ -9,6 +9,22 @@ const { Content } = await entry.render();
   <section class="container reveal">
     <h1>{entry.data.title}</h1>
     <div class="staff-divider staff-divider--tight" role="presentation"></div>
-    <div class="prose card-panel"><Content /></div>
+
+    <div class={`chi-siamo-layout ${entry.data.directorPhoto ? 'has-photo' : ''}`}>
+      <div class="prose card-panel"><Content /></div>
+
+      {entry.data.directorPhoto && (
+        <aside class="director-card reveal">
+          <img
+            class="lightbox-img"
+            src={entry.data.directorPhoto}
+            alt={entry.data.directorPhotoAlt || entry.data.directorName || 'Il direttore del coro'}
+            data-caption={entry.data.directorName}
+          />
+          {entry.data.directorName && <p class="director-name">{entry.data.directorName}</p>}
+          <p class="director-role">Direttore del coro</p>
+        </aside>
+      )}
+    </div>
   </section>
 </Layout>

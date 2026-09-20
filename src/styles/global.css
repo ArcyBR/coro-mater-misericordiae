@@ -440,6 +440,8 @@ footer.site-footer .socials svg { width: 1.1rem; height: 1.1rem; }
   padding: 2rem;
 }
 
+.lightbox-overlay[hidden] { display: none; }
+
 .lightbox-overlay img {
   max-width: min(90vw, 1100px);
   max-height: 80vh;
@@ -566,3 +568,43 @@ footer.site-footer .socials svg { width: 1.1rem; height: 1.1rem; }
   width: 96px; height: 96px; object-fit: cover;
   border: 1px solid var(--line);
 }
+
+/* --- Chi siamo: testo + foto del direttore --- */
+.chi-siamo-layout.has-photo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 2rem;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .chi-siamo-layout.has-photo { grid-template-columns: 1fr; }
+  .chi-siamo-layout.has-photo .director-card { max-width: 12rem; margin: 0 auto; }
+}
+.director-card {
+  text-align: center;
+}
+.director-card img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.director-name {
+  font-family: var(--font-display);
+  color: var(--wine-deep);
+  margin: 0.8rem 0 0.1rem;
+}
+.director-role {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* --- Sezione secondaria "Vuoi cantare con noi?" in fondo alla home --- */
+.join-note {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+.join-note .lede { margin-left: auto; margin-right: auto; }
+.join-note h2 { margin-top: 0; }

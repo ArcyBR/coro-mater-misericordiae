@@ -16,6 +16,14 @@ const temi = defineCollection({
         })
       )
       .default([]),
+    videos: z
+      .array(
+        z.object({
+          url: z.string(),
+          caption: z.string().optional(),
+        })
+      )
+      .default([]),
   }),
 });
 

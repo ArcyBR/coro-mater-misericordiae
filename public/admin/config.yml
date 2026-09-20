@@ -32,6 +32,16 @@ collections:
         fields:
           - { label: "Foto", name: "image", widget: "image" }
           - { label: "Didascalia (facoltativa)", name: "caption", widget: "string", required: false }
+      - label: "Video"
+        name: "videos"
+        widget: "list"
+        allow_add: true
+        required: false
+        summary: "{{fields.caption}}"
+        hint: "Incolla il link di un video YouTube o Vimeo (es. https://www.youtube.com/watch?v=...)"
+        fields:
+          - { label: "Link del video", name: "url", widget: "string" }
+          - { label: "Didascalia (facoltativa)", name: "caption", widget: "string", required: false }
       - { label: "Testo", name: "body", widget: "markdown" }
 
   - name: "pagine"

@@ -48,7 +48,10 @@ const links = [
         Mater Misericordiae
         <small>Associazione Musicale Culturale Euterpe APS &middot; Brindisi</small>
       </a>
-      <nav class="site-nav" aria-label="Navigazione principale">
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span aria-hidden="true">☰</span> Menu
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
         <ul>
           {links.map((l) => (
             <li><a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a></li>
@@ -69,12 +72,52 @@ const links = [
         Parrocchia SS. Resurrezione, quartiere Cappuccini &mdash; Brindisi
       </div>
       <div class="meta">
-        <a href="mailto:Ass.euterpeaps@gmail.com">Ass.euterpeaps@gmail.com</a><br />
-        <a href="https://www.facebook.com/coropolifonicomatermisericordiae" target="_blank" rel="noopener">Facebook</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://www.instagram.com/coromatermisericordiaebr" target="_blank" rel="noopener">Instagram</a>
+        <a href="mailto:Ass.euterpeaps@gmail.com">Ass.euterpeaps@gmail.com</a>
+        <div class="socials">
+          <a href="https://www.facebook.com/coropolifonicomatermisericordiae" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5H16l.5-3H13.5V8.3c0-.87.24-1.46 1.5-1.46H16.6V4.14C16.3 4.1 15.3 4 14.1 4c-2.4 0-4 1.46-4 4.15V10.5H7.6v3H10.1V21h3.4z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/coromatermisericordiaebr" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+        </div>
       </div>
     </div>
   </footer>
+
+  <script is:inline>
+    (function () {
+      var toggle = document.getElementById('nav-toggle');
+      var nav = document.getElementById('site-nav');
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          var open = nav.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+
+      if ('IntersectionObserver' in window) {
+        var revealEls = document.querySelectorAll('.reveal');
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        revealEls.forEach(function (el) { observer.observe(el); });
+      } else {
+        document.querySelectorAll('.reveal').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ excerpt: "Concerto di Natale per soli, coro, coro di voci bianche e orchestra."
 cover: ""
 published: true
 gallery: []
+videos: []
 ---
 
 Il secondo appuntamento del coro, il concerto di Natale *"Pacem in Terris"*,

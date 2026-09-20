@@ -6,9 +6,9 @@ const entry = await getEntry('pagine', 'contatti');
 const { Content } = await entry.render();
 ---
 <Layout title={entry.data.title}>
-  <section class="container">
+  <section class="container reveal">
     <h1>{entry.data.title}</h1>
     <div class="staff-divider staff-divider--tight" role="presentation"></div>
-    <div class="prose"><Content /></div>
+    <div class="prose card-panel"><Content /></div>
   </section>
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import VideoEmbed from '../../components/VideoEmbed.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,24 +15,38 @@ const { tema } = Astro.props;
 const { Content } = await tema.render();
 ---
 <Layout title={tema.data.title} description={tema.data.excerpt}>
-  <section class="container">
+  <section class="container reveal">
     <p class="date" style="color: var(--gold); font-size: 0.9rem;">
       {tema.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
     </p>
     <h1>{tema.data.title}</h1>
     <p class="lede">{tema.data.excerpt}</p>
     <div class="staff-divider staff-divider--tight" role="presentation"></div>
-    <div class="prose"><Content /></div>
+    <div class="prose card-panel"><Content /></div>
 
     {tema.data.gallery.length > 0 && (
-      <div class="gallery">
-        {tema.data.gallery.map((foto) => (
-          <figure>
-            <img src={foto.image} alt={foto.caption ?? tema.data.title} loading="lazy" />
-            {foto.caption && <figcaption>{foto.caption}</figcaption>}
-          </figure>
-        ))}
-      </div>
+      <>
+        <h2>Foto</h2>
+        <div class="gallery">
+          {tema.data.gallery.map((foto) => (
+            <figure>
+              <img src={foto.image} alt={foto.caption ?? tema.data.title} loading="lazy" />
+              {foto.caption && <figcaption>{foto.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </>
+    )}
+
+    {tema.data.videos.length > 0 && (
+      <>
+        <h2>Video</h2>
+        <div class="video-grid">
+          {tema.data.videos.map((video) => (
+            <VideoEmbed url={video.url} caption={video.caption} />
+          ))}
+        </div>
+      </>
     )}
 
     <p><a href="/temi">&larr; Torna a tutti i temi</a></p>

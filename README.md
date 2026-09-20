@@ -33,7 +33,8 @@ pensato per essere aggiornato da una persona non tecnica.
 6. Da quel momento, quella persona apre `https://<nome-sito>.netlify.app/admin`,
    fa login, e gestisce tutto da lì: testi delle pagine (Chi siamo, Storia,
    Audizioni, Contatti), e i "Temi ed eventi" con le loro gallerie fotografiche
-   (più foto per ogni tema, aggiungibili e rimovibili liberamente).
+   (più foto per ogni tema, aggiungibili e rimovibili liberamente) **e i video**
+   (basta incollare il link di un video YouTube o Vimeo, più video per tema).
 
 ## Dominio personalizzato (facoltativo)
 

@@ -5,6 +5,7 @@ excerpt: "Concerto per il Giubileo Lauretano, con la partecipazione delle autori
 cover: ""
 published: true
 gallery: []
+videos: []
 ---
 
 Il 27 febbraio 2020 il coro ha partecipato al concerto *"Omaggio a Maria"* in

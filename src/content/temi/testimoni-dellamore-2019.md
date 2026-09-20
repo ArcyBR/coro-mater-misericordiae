@@ -5,6 +5,7 @@ excerpt: "Concerto di debutto del coro, per soli, coro e orchestra da camera."
 cover: ""
 published: true
 gallery: []
+videos: []
 ---
 
 Il 16 giugno 2019 il Coro Polifonico "Mater Misericordiae" si è presentato per

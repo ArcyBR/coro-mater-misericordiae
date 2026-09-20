@@ -1,35 +1,126 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
 import { getCollection } from 'astro:content';
 
-const temi = (await getCollection('temi', ({ data }) => data.published))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const allTemi = (await getCollection('temi', ({ data }) => data.published))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const now = new Date();
+const nextEvent = allTemi
+  .filter((t) => t.data.date.valueOf() >= now.valueOf())
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())[0];
+
+const latestTemi = allTemi.slice(0, 3);
+
+const foundingYear = 2019;
+const yearsActive = Math.max(1, now.getFullYear() - foundingYear);
+const eventsDocumented = allTemi.length;
+
+const latestVideo = allTemi
+  .flatMap((t) => t.data.videos.map((v) => ({ ...v, temaTitle: t.data.title, slug: t.slug })))
+  .slice(0, 1)[0];
 ---
 <Layout title="Home">
   <section class="hero container">
-    <p class="eyebrow-note">Brindisi &mdash; Parrocchia SS. Resurrezione, quartiere Cappuccini</p>
-    <h1>Un coro nato per unire voci diverse in un'unica armonia.</h1>
-    <p class="lede">
-      Il Coro Polifonico "Mater Misericordiae", espressione dell'Associazione Musicale
-      Culturale Euterpe APS, canta dal 2019 tra fede, musica e comunità. Non serve
-      esperienza: serve solo la voglia di provarci.
-    </p>
-    <a class="btn" href="/audizioni">Vieni a cantare con noi</a>
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow-note">Brindisi &mdash; Parrocchia SS. Resurrezione, quartiere Cappuccini</p>
+        <h1>Un coro nato per unire voci diverse in un'unica armonia.</h1>
+        <p class="lede">
+          Il Coro Polifonico "Mater Misericordiae", espressione dell'Associazione Musicale
+          Culturale Euterpe APS, canta dal {foundingYear} tra fede, musica e comunità. Non
+          serve esperienza: serve solo la voglia di provarci.
+        </p>
+        <a class="btn" href="/audizioni">Vieni a cantare con noi</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="92" stroke="#d9cfb8" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="70" stroke="#d9cfb8" stroke-width="1.5"/>
+          <g stroke="#6e1f2a" stroke-width="2" stroke-linecap="round">
+            <path d="M40 100 Q 70 60, 100 100 T 160 100"/>
+            <path d="M40 120 Q 70 90, 100 120 T 160 120" opacity="0.6"/>
+            <path d="M40 80 Q 70 50, 100 80 T 160 80" opacity="0.35"/>
+          </g>
+          <g fill="#b98a2e">
+            <circle cx="62" cy="132" r="5"/>
+            <circle cx="112" cy="70" r="5"/>
+            <circle cx="150" cy="112" r="5"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="stats-band reveal">
+      <div class="stat"><strong>{foundingYear}</strong><span>Anno di fondazione</span></div>
+      <div class="stat"><strong>{yearsActive}</strong><span>Anni di attività</span></div>
+      <div class="stat"><strong>{eventsDocumented}</strong><span>Eventi e concerti documentati</span></div>
+      <div class="stat"><strong>0€</strong><span>Esperienza richiesta per unirti</span></div>
+    </div>
   </section>
+
+  {nextEvent && (
+    <div class="container reveal">
+      <div class="next-event">
+        <span class="badge">Prossimo appuntamento</span>
+        <div>
+          <h3><a href={`/temi/${nextEvent.slug}`}>{nextEvent.data.title}</a></h3>
+          <p>
+            {nextEvent.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
+            &nbsp;&mdash;&nbsp;{nextEvent.data.excerpt}
+          </p>
+        </div>
+      </div>
+    </div>
+  )}
 
   <div class="container"><div class="staff-divider" role="presentation"></div></div>
 
-  <section class="container">
+  <section class="container reveal">
+    <h2>Perché unirti al coro</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 32V10l20-4v18"/><circle cx="14" cy="34" r="4.5"/><circle cx="34" cy="28" r="4.5"/>
+        </svg>
+        <h3>Nessuna esperienza richiesta</h3>
+        <p>Accogliamo ogni voce ed età: quello che conta è la voglia di provarci, il resto lo costruiamo insieme durante le prove.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="16" r="6"/><path d="M10 40c0-7.7 6.3-14 14-14s14 6.3 14 14"/>
+        </svg>
+        <h3>Una comunità, non solo un coro</h3>
+        <p>Cantiamo insieme all'interno della Parrocchia SS. Resurrezione: amicizia, fede e musica crescono nello stesso posto.</p>
+      </div>
+      <div class="feature">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 6 L28 20 L42 20 L31 28 L35 42 L24 33 L13 42 L17 28 L6 20 L20 20 Z"/>
+        </svg>
+        <h3>Momenti che restano</h3>
+        <p>Dai concerti nelle grandi occasioni cittadine agli incontri con artisti internazionali: ogni stagione porta nuovi ricordi.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="pull-quote reveal">
+    "Un coro è tante voci che decidono, insieme, di diventare una sola."
+    <span>Coro Polifonico Mater Misericordiae</span>
+  </p>
+
+  <section class="container reveal">
     <h2>Ultimi temi ed eventi</h2>
     <div class="temi-grid">
-      {temi.map((tema) => (
+      {latestTemi.map((tema) => (
         <a class="tema-card" href={`/temi/${tema.slug}`}>
-          {tema.data.cover ? (
-            <div class="cover" style={`background-image:url(${tema.data.cover})`}></div>
-          ) : (
-            <div class="cover no-photo"><span>Foto in arrivo</span></div>
-          )}
+          <div class="cover-wrap">
+            {tema.data.cover ? (
+              <div class="cover has-photo" style={`background-image:url(${tema.data.cover})`}></div>
+            ) : (
+              <div class="cover no-photo"><span>Foto in arrivo</span></div>
+            )}
+          </div>
           <span class="date">{tema.data.date.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           <h3>{tema.data.title}</h3>
         </a>
@@ -37,4 +128,12 @@ const temi = (await getCollection('temi', ({ data }) => data.published))
     </div>
     <p><a href="/temi">Vedi tutti i temi</a></p>
   </section>
+
+  {latestVideo && (
+    <section class="container reveal">
+      <h2>Guarda e ascolta</h2>
+      <VideoEmbed url={latestVideo.url} caption={latestVideo.caption ?? latestVideo.temaTitle} />
+      <p><a href={`/temi/${latestVideo.slug}`}>Vai al tema "{latestVideo.temaTitle}"</a></p>
+    </section>
+  )}
 </Layout>

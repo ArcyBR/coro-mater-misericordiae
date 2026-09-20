@@ -1,7 +1,8 @@
 ---
 title: Chi siamo
 directorName: "M° Anna Maria Sabino Pasquale"
-directorPhoto: ""
+directorPhoto: "/images/uploads/direttore-primo-piano.jpg"
+directorPhotoAlt: "M° Anna Maria Sabino Pasquale"
 ---
 
 Il Coro Polifonico **"Mater Misericordiae"** è nato l'8 marzo 2019 all'interno
@@ -14,7 +15,7 @@ di fede, comunità e amicizia.
 
 ## Il direttore
 
-*(spazio da completare con la biografia del direttore)*
+![Il direttore dirige il coro e l'orchestra](/images/uploads/direttore-con-coro.jpg)
 
 ## L'Associazione Euterpe APS
 

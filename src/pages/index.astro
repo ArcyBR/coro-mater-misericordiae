@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 const allTemi = (await getCollection('temi', ({ data }) => data.published))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -21,19 +21,13 @@ const latestVideo = allTemi
   .flatMap((t) => t.data.videos.map((v) => ({ ...v, temaTitle: t.data.title, slug: t.slug })))
   .slice(0, 1)[0];
 
-const settings = await getEntry('impostazioni', 'home');
-const autoHeroImage = allTemi
-  .map((t) => t.data.cover || t.data.gallery[0]?.image)
-  .find(Boolean);
-const heroImage = settings?.data.heroImage || autoHeroImage;
-
 const mosaicPhotos = allTemi
   .flatMap((t) => t.data.gallery.map((g) => ({ ...g, temaTitle: t.data.title })))
   .slice(0, 8);
 ---
 <Layout title="Home">
-  <section class={`hero container ${heroImage ? 'has-bg' : ''}`}>
-    {heroImage && <div class="hero-bg-layer" style={`background-image:url(${heroImage})`} aria-hidden="true"></div>}
+  <section class="hero container has-logo-bg">
+    <div class="hero-logo-layer" style="background-image:url(/images/site/logo-coro.jpg)" aria-hidden="true"></div>
     <div class="hero-inner">
       <div>
         <p class="eyebrow-note">Brindisi &mdash; Parrocchia SS. Resurrezione, quartiere Cappuccini</p>
@@ -45,24 +39,6 @@ const mosaicPhotos = allTemi
         </p>
         <a class="btn" href="/temi">Scopri le nostre attività</a>
       </div>
-      {!heroImage && (
-        <div class="hero-art" aria-hidden="true">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="92" stroke="#d9cfb8" stroke-width="1.5"/>
-            <circle cx="100" cy="100" r="70" stroke="#d9cfb8" stroke-width="1.5"/>
-            <g stroke="#6e1f2a" stroke-width="2" stroke-linecap="round">
-              <path d="M40 100 Q 70 60, 100 100 T 160 100"/>
-              <path d="M40 120 Q 70 90, 100 120 T 160 120" opacity="0.6"/>
-              <path d="M40 80 Q 70 50, 100 80 T 160 80" opacity="0.35"/>
-            </g>
-            <g fill="#b98a2e">
-              <circle cx="62" cy="132" r="5"/>
-              <circle cx="112" cy="70" r="5"/>
-              <circle cx="150" cy="112" r="5"/>
-            </g>
-          </svg>
-        </div>
-      )}
     </div>
 
     <div class="stats-band reveal">
